@@ -47,3 +47,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.playerTwo {
+  color: #4882ff;
+}
