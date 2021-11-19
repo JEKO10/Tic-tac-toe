@@ -2,20 +2,52 @@ const turn = document.querySelector("#turn");
 const gameField = document.querySelectorAll(".gameField");
 const reset = document.querySelector("button");
 const playerWin = document.querySelector(".playerWin");
+const winner = document.querySelector("#winner");
+let counter = 0;
+let player;
+let playerTurn;
+
+const winningCombos = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
+const checkWin = () => {
+  for (let combo of winningCombos) {
+    let combination = "";
+    for (let index of combo) {
+      combination += gameField[index].textContent;
+    }
+
+    if (combination === `${player}${player}${player}`) {
+      playerWin.style.display = "block";
+      winner.innerHTML = player;
+    }
+  }
+};
 
 gameField.forEach((singleField) => {
   singleField.addEventListener("click", () => {
+    player = counter % 2 ? "O" : "X";
+    playerTurn = counter % 2 ? "X" : "O";
+    turn.textContent = playerTurn;
+    singleField.innerHTML = player;
     turn.classList.toggle("playerTwo");
-    turn.textContent = "X";
-    singleField.innerHTML = "O";
     singleField.style.color = "#00ffb3";
+    winner.style.color = "#00ffb3";
     singleField.style.pointerEvents = "none";
-    // playerWin.style.display = "block";
+    checkWin();
+    counter++;
 
     if (!turn.classList.contains("playerTwo")) {
-      turn.textContent = "O";
-      singleField.innerHTML = "X";
       singleField.style.color = "#4882ff";
+      winner.style.color = "#4882ff";
     }
   });
 });
