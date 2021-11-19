@@ -30,9 +30,11 @@ h1 {
   margin: 0;
 }
 
-.playerWin {
+.playerWin,
+.draw {
   font-weight: 200;
   margin-top: 300px;
+  display: none;
 }
 
 h3 {

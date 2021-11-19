@@ -3,6 +3,7 @@ const gameField = document.querySelectorAll(".gameField");
 const reset = document.querySelector("button");
 const playerWin = document.querySelector(".playerWin");
 const winner = document.querySelector("#winner");
+const draw = document.querySelector(".draw");
 let counter = 0;
 let player;
 let playerTurn;
@@ -19,6 +20,7 @@ const winningCombos = [
 ];
 
 const checkWin = () => {
+  let win = false;
   for (let combo of winningCombos) {
     let combination = "";
     for (let index of combo) {
@@ -26,15 +28,11 @@ const checkWin = () => {
     }
 
     if (combination === `${player}${player}${player}`) {
-      playerWin.style.display = "block";
-      winner.innerHTML = player;
-      gameField.forEach((singleField) => {
-        singleField.style.pointerEvents = "none";
-      });
-
-      reset.style.display = "inline-block";
+      win = true;
     }
   }
+
+  return win;
 };
 
 gameField.forEach((singleField) => {
@@ -44,12 +42,28 @@ gameField.forEach((singleField) => {
     turn.textContent = playerTurn;
     singleField.innerHTML = player;
 
-    checkWin();
+    if (checkWin()) {
+      playerWin.style.display = "block";
+      winner.innerHTML = player;
+      gameField.forEach((singleField) => {
+        singleField.style.pointerEvents = "none";
+      });
+      reset.style.display = "inline-block";
+    } else if (counter === 8) {
+      draw.style.display = "block";
+      winner.innerHTML = player;
+      gameField.forEach((singleField) => {
+        singleField.style.pointerEvents = "none";
+      });
+      reset.style.display = "inline-block";
+    }
+
+    counter++;
     turn.classList.toggle("playerTwo");
     singleField.style.color = "#00ffb3";
     winner.style.color = "#00ffb3";
     singleField.style.pointerEvents = "none";
-    counter++;
+    // console.log(counter);
 
     if (!turn.classList.contains("playerTwo")) {
       singleField.style.color = "#4882ff";
