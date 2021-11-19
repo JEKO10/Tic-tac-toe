@@ -28,6 +28,11 @@ const checkWin = () => {
     if (combination === `${player}${player}${player}`) {
       playerWin.style.display = "block";
       winner.innerHTML = player;
+      gameField.forEach((singleField) => {
+        singleField.style.pointerEvents = "none";
+      });
+
+      reset.style.display = "inline-block";
     }
   }
 };
@@ -38,11 +43,12 @@ gameField.forEach((singleField) => {
     playerTurn = counter % 2 ? "X" : "O";
     turn.textContent = playerTurn;
     singleField.innerHTML = player;
+
+    checkWin();
     turn.classList.toggle("playerTwo");
     singleField.style.color = "#00ffb3";
     winner.style.color = "#00ffb3";
     singleField.style.pointerEvents = "none";
-    checkWin();
     counter++;
 
     if (!turn.classList.contains("playerTwo")) {
